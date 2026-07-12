@@ -105,9 +105,7 @@ export default function App() {
           <h1 className="text-[20px] font-bold">NEURO Limited Hyperacute Stroke MRI Panel</h1>
           <p className="text-[11px] font-bold uppercase tracking-wider text-[#EAF2F8] mt-0.5">PRACTICE • Synthetic design prototype</p>
         </div>
-        <div className="bg-[#FFF4CE] border-b border-[#D6B656] px-4 py-2 text-[12px] font-bold text-[#664D03]">
-          Public design prototype • Synthetic data only • No clinical-system connection • No orders can be placed or transmitted
-        </div>
+
       </header>
 
       {/* Content Area */}

@@ -79,9 +79,7 @@ export default function SummarySidebar({ state }: Props) {
           </section>
         </div>
 
-        <div className="border-t border-[#D8DDE3] bg-[#F7F8FA] px-3 py-2 text-[10px] leading-snug text-slate-500">
-          Review only. This prototype cannot sign, place, or transmit orders.
-        </div>
+
       </div>
     </aside>
   );
