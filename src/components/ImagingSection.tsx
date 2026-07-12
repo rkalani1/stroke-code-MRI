@@ -103,36 +103,41 @@ export default function ImagingSection({ state, updateState }: Props) {
         {/* MRA Head / Neck */}
         {showMraRequired && (
           <div className="border border-[#BCC3CD] rounded-sm overflow-hidden bg-[#F8F9FA]">
-            <div className="flex items-start gap-3 p-2.5 bg-[#E3EAF3] border-b border-[#BCC3CD]">
+            <label className={`flex items-start gap-3 p-2.5 cursor-pointer border-b border-[#BCC3CD] ${state.mraHeadNeckSelected ? 'bg-[#E3EAF3]' : 'bg-white hover:bg-slate-50 transition-colors'}`}>
               <input
                 type="checkbox"
                 className="mt-1 w-3.5 h-3.5 text-[#0055CC] rounded-sm border-[#BCC3CD] focus:ring-[#0055CC]"
-                checked={true}
-                readOnly
-                disabled
+                checked={state.mraHeadNeckSelected}
+                onChange={(e) => updateState({ mraHeadNeckSelected: e.target.checked })}
               />
               <div>
                 <div className="font-bold text-slate-900 text-[13px]">
                   MRA Head / Neck wo Contrast <span className="font-normal">— ONLY if patient has suspected LVO and has contraindications for CTA</span>
                 </div>
-                <div className="text-[10px] font-bold text-slate-600 uppercase border border-slate-300 bg-white px-1 py-0.5 rounded-sm inline-block mt-1 tracking-wider">SELECTED BY INDICATION</div>
+                {state.mraHeadNeckSelected ? (
+                  <div className="text-[10px] font-bold text-slate-600 uppercase border border-slate-300 bg-white px-1 py-0.5 rounded-sm inline-block mt-1 tracking-wider">SELECTED BY INDICATION</div>
+                ) : (
+                  <div className="text-[12px] text-slate-500 mt-0.5">Optional for an EVT decision when MRA is indicated.</div>
+                )}
               </div>
-            </div>
+            </label>
 
-            <div className="p-4 border-l-[3px] border-[#4A729A] ml-2 my-3 mr-3 bg-white border border-[#BCC3CD]">
-              <div className="text-[12px] font-bold text-slate-800 uppercase tracking-wider mb-2">Includes both component orders</div>
-              <ul className="list-disc pl-5 text-[12px] text-slate-700 space-y-1 mb-4 font-bold">
-                <li>MRA Head wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
-                <li>MRA Neck wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
-              </ul>
+            {state.mraHeadNeckSelected && (
+              <div className="p-4 border-l-[3px] border-[#4A729A] ml-2 my-3 mr-3 bg-white border border-[#BCC3CD]">
+                <div className="text-[12px] font-bold text-slate-800 uppercase tracking-wider mb-2">Includes both component orders</div>
+                <ul className="list-disc pl-5 text-[12px] text-slate-700 space-y-1 mb-4 font-bold">
+                  <li>MRA Head wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
+                  <li>MRA Neck wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
+                </ul>
 
-              <DiagnosisPicker 
-                value={state.mraDiagnosis}
-                onChange={(val) => updateState({ mraDiagnosis: val })}
-                id="mra-diagnosis"
-                label="Diagnosis for the complete MRA Head/Neck package"
-              />
-            </div>
+                <DiagnosisPicker 
+                  value={state.mraDiagnosis}
+                  onChange={(val) => updateState({ mraDiagnosis: val })}
+                  id="mra-diagnosis"
+                  label="Diagnosis for the complete MRA Head/Neck package"
+                />
+              </div>
+            )}
           </div>
         )}
 

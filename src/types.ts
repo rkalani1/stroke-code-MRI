@@ -15,6 +15,7 @@ export interface AppState {
   lorazepam: boolean;
   transport: boolean;
   discontinue: boolean;
+  mraHeadNeckSelected: boolean;
 }
 
 export const DIAGNOSIS_OPTIONS = [

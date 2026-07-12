@@ -19,7 +19,8 @@ export default function App() {
     attending: '',
     lorazepam: false,
     transport: true,
-    discontinue: true
+    discontinue: true,
+    mraHeadNeckSelected: false
   });
   
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function App() {
       decision: null, evtOptionalBrainMri: false, mriSafetyScreening: false, 
       mriSafetyXrChest: false, mriSafetyXrAbdomen: false, mriSafetyCtHead: false, 
       mriSafetyXrSkull: false, mriSafetyXrNeck: false,
-      mriDiagnosis: '', mraDiagnosis: '', attending: '', lorazepam: false, transport: true, discontinue: true
+      mriDiagnosis: '', mraDiagnosis: '', attending: '', lorazepam: false, transport: true, discontinue: true, mraHeadNeckSelected: false
     } as AppState;
     switch (demo) {
       case 'blank':
@@ -57,7 +58,7 @@ export default function App() {
         setState({ ...base, decision: 'both', mriSafetyScreening: true, mriSafetyXrChest: true });
         break;
       case 'review':
-        setState({ ...base, decision: 'both', mriSafetyScreening: true, mriDiagnosis: 'ischemic', mraDiagnosis: 'ischemic', attending: 'provider_a', lorazepam: false });
+        setState({ ...base, decision: 'both', mriSafetyScreening: true, mriDiagnosis: 'ischemic', mraDiagnosis: 'ischemic', attending: 'provider_a', lorazepam: false, mraHeadNeckSelected: true });
         break;
     }
     
@@ -70,8 +71,16 @@ export default function App() {
     setState((prev) => {
       const next = { ...prev, ...updates };
       
-      if (updates.decision !== undefined && updates.decision !== 'evt') {
-        next.evtOptionalBrainMri = false;
+      // If decision changed, set defaults for optional scans
+      if (updates.decision !== undefined && updates.decision !== prev.decision) {
+        if (updates.decision !== 'evt') {
+          next.evtOptionalBrainMri = false;
+        }
+        if (updates.decision === 'evt' || updates.decision === 'both') {
+          next.mraHeadNeckSelected = true;
+        } else {
+          next.mraHeadNeckSelected = false;
+        }
       }
       
       const brainMriSelected = next.decision === 'thrombolytic' || next.decision === 'both' || (next.decision === 'evt' && next.evtOptionalBrainMri);
@@ -79,8 +88,8 @@ export default function App() {
         next.mriDiagnosis = '';
       }
       
-      const mraSelected = next.decision === 'evt' || next.decision === 'both';
-      if (!mraSelected) {
+      const mraShown = next.decision === 'evt' || next.decision === 'both';
+      if (!mraShown || !next.mraHeadNeckSelected) {
         next.mraDiagnosis = '';
       }
       
