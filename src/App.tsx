@@ -3,7 +3,6 @@ import { AppState, DemoState } from './types';
 import DecisionSection from './components/DecisionSection';
 import ImagingSection from './components/ImagingSection';
 import ClinicalInfoSection from './components/ClinicalInfoSection';
-import SummarySidebar from './components/SummarySidebar';
 
 export default function App() {
   const [state, setState] = useState<AppState>({
@@ -74,14 +73,6 @@ export default function App() {
       if (updates.decision !== undefined && updates.decision !== 'evt') {
         next.evtOptionalBrainMri = false;
       }
-
-      if (updates.mriSafetyScreening === false) {
-        next.mriSafetyXrChest = false;
-        next.mriSafetyXrAbdomen = false;
-        next.mriSafetyCtHead = false;
-        next.mriSafetyXrSkull = false;
-        next.mriSafetyXrNeck = false;
-      }
       
       const brainMriSelected = next.decision === 'thrombolytic' || next.decision === 'both' || (next.decision === 'evt' && next.evtOptionalBrainMri);
       if (!brainMriSelected) {
@@ -98,21 +89,16 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F6F8] text-slate-900 font-sans flex flex-col selection:bg-[#E3EAF3]">
+    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col pb-16 selection:bg-[#E3EAF3]">
       {/* Main Header */}
-      <header className="sticky top-0 z-20 shadow-sm">
-        <div className="bg-[#4A729A] text-white px-4 py-3">
-          <h1 className="text-[20px] font-bold">NEURO Limited Hyperacute Stroke MRI Panel</h1>
-          <p className="text-[11px] font-bold uppercase tracking-wider text-[#EAF2F8] mt-0.5">PRACTICE • Synthetic design prototype</p>
-        </div>
-
-      </header>
+      <div className="bg-[#4A729A] text-white px-4 py-3 shadow-inner sticky top-0 z-10">
+        <h1 className="text-[20px] font-bold">NEURO Limited Hyperacute Stroke Panel</h1>
+      </div>
 
       {/* Content Area */}
-      <main className="flex-1 w-full max-w-[1500px] mx-auto flex flex-col lg:flex-row items-start gap-4 p-4 lg:p-6">
-        <div className="flex-1 min-w-0 w-full">
-          <DecisionSection state={state} updateState={updateState} />
-
+      <main className="flex-1 w-full flex flex-col lg:flex-row">
+        {/* Center Col */}
+        <div className="flex-1 p-4 lg:p-6 bg-white min-w-0">
           <div className="border border-[#BCC3CD] rounded-sm bg-white p-3 mb-6 shadow-sm">
             <h3 className="font-bold text-[13px] text-slate-800 uppercase tracking-wider mb-2">GENERAL GUIDELINES:</h3>
             <p className="text-[13px] font-bold text-[#C00000] mb-3">ONLY to be ordered by ED and Neurology (stroke attending approved - call stroke phone if confirmation is needed) and solely for acute stroke intervention decision making:</p>
@@ -121,13 +107,14 @@ export default function App() {
               <li><strong>Endovascular decisions:</strong> suspected LVO with a known severe contrast allergy (aka, cannot follow our current contrast allergy hyperacute CTA process) then can do a TOF MRA.</li>
             </ul>
           </div>
+
+          <DecisionSection state={state} updateState={updateState} />
           
           <ImagingSection state={state} updateState={updateState} />
-          {state.decision && <ClinicalInfoSection state={state} updateState={updateState} />}
+          <ClinicalInfoSection state={state} updateState={updateState} />
         </div>
-
-        <SummarySidebar state={state} />
       </main>
+
     </div>
   );
 }

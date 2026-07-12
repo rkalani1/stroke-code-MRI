@@ -28,10 +28,6 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
             id="attending"
             className="w-full bg-white px-3 py-2 text-[13px] outline-none"
             value={state.attending}
-            required
-            aria-required="true"
-            aria-invalid={isError}
-            aria-describedby={isError ? 'attending-error' : undefined}
             onChange={(e) => updateState({ attending: e.target.value })}
           >
             <option value="" disabled>Select approving attending</option>
@@ -41,7 +37,7 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
           </select>
         </div>
         {isError && (
-          <p id="attending-error" className="text-[12px] text-red-600 mt-2 font-medium">Select the approving stroke attending.</p>
+          <p className="text-[12px] text-red-600 mt-2 font-medium">Select the approving stroke attending.</p>
         )}
       </div>
     </div>

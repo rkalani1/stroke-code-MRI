@@ -1,31 +1,19 @@
-# Stroke Code MRI prototype
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
 
-An interactive, synthetic design prototype for the **NEURO Limited Hyperacute Stroke MRI Panel**. It demonstrates the proposed Thrombolytic, EVT, and combined decision branches, including generated MRI/MRA orders, order-level diagnosis association, MRI safety-screening options, attending approval, and a New Orders review.
+# Run and deploy your AI Studio app
 
-> **Public design prototype only.** It uses synthetic data, is not connected to Epic or another clinical system, and cannot place or transmit orders. It is not for patient care.
+This contains everything you need to run your app locally.
+https://ai.studio/apps/355f5389-d4d9-47ce-aefa-efbdb0ba4268
 
-## View the prototype
+## Run Locally
 
-[Open the GitHub Pages prototype](https://rkalani1.github.io/stroke-code-MRI/)
+**Prerequisites:**  Node.js
 
-Use the query parameter `demo` to open a prepared state: `blank`, `thrombolytic`, `evt`, `evt-brain`, `both`, `unable-to-screen`, or `review`.
 
-## Run locally
-
-Prerequisite: Node.js 22 or later.
-
-```bash
-npm ci
-npm run dev
-```
-
-No API key, backend, or clinical-system connection is required.
-
-## Verify a change
-
-```bash
-npm run lint
-npm run build
-```
-
-The `main` branch deploys automatically to GitHub Pages after both checks pass.
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
