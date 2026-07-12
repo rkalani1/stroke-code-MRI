@@ -2,5 +2,5 @@
   "name": "NEURO Limited Hyperacute Stroke MRI Panel",
   "description": "Interactive prototype for a stroke MRI panel order set.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": []
 }

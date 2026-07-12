@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { AppState, DIAGNOSIS_OPTIONS } from '../types';
 
 interface Props {
@@ -6,6 +7,13 @@ interface Props {
 }
 
 const DiagnosisPicker = ({ value, onChange, id, label }: { value: string, onChange: (v: string) => void, id: string, label: string }) => {
+  const [candidate, setCandidate] = useState('');
+  const errorId = `${id}-error`;
+
+  useEffect(() => {
+    if (value) setCandidate('');
+  }, [value]);
+
   return (
     <div className="border border-[#BCC3CD] p-3 rounded-sm bg-white mt-3">
       <label htmlFor={id} className="block text-[12px] font-bold text-slate-700 mb-1">
@@ -23,19 +31,35 @@ const DiagnosisPicker = ({ value, onChange, id, label }: { value: string, onChan
           </button>
         </div>
       ) : (
-        <div className={`mt-1 flex rounded-sm border ${value === '' ? 'border-[#C00000] border-l-[3px]' : 'border-[#BCC3CD]'}`}>
-          <select 
-            id={id}
-            data-focus-target={id}
-            className="flex-1 p-2 text-[13px] outline-none border-none bg-white"
-            value=""
-            onChange={(e) => onChange(e.target.value)}
-          >
-            <option value="" disabled>Search for diagnosis</option>
-            {DIAGNOSIS_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-          </select>
-          <div className="bg-slate-50 border-l border-[#BCC3CD] px-4 py-2 font-bold text-slate-500 text-[12px] flex items-center justify-center">Add</div>
-        </div>
+        <>
+          <div className="mt-1 flex rounded-sm border border-[#C00000] border-l-[3px]">
+            <select
+              id={id}
+              data-focus-target={id}
+              className="min-w-0 flex-1 p-2 text-[13px] outline-none border-none bg-white"
+              value={candidate}
+              required
+              aria-required="true"
+              aria-invalid="true"
+              aria-describedby={errorId}
+              onChange={(e) => setCandidate(e.target.value)}
+            >
+              <option value="" disabled>Search for diagnosis</option>
+              {DIAGNOSIS_OPTIONS.map(opt => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+            </select>
+            <button
+              type="button"
+              disabled={!candidate}
+              onClick={() => {
+                if (candidate) onChange(candidate);
+              }}
+              className="bg-[#0055CC] border-l border-[#0047AA] px-4 py-2 font-bold text-white text-[12px] disabled:bg-slate-100 disabled:text-slate-400 disabled:border-[#BCC3CD] hover:bg-[#0047AA] disabled:hover:bg-slate-100"
+            >
+              Add
+            </button>
+          </div>
+          <p id={errorId} className="text-[11px] text-[#C00000] font-medium mt-1.5">Select a diagnosis, then choose Add.</p>
+        </>
       )}
     </div>
   );
@@ -47,6 +71,18 @@ export default function ImagingSection({ state, updateState }: Props) {
   const showCodeStrokeOptional = state.decision === 'evt';
   
   const mriSelected = showCodeStrokeRequired || (showCodeStrokeOptional && state.evtOptionalBrainMri);
+
+  if (!state.decision) {
+    return (
+      <div className="border border-[#BCC3CD] rounded-sm mb-4 bg-white shadow-sm mt-6">
+        <div className="bg-[#E5EEF6] border-b border-[#BCC3CD] flex items-center p-2.5 rounded-t-sm gap-2">
+          <div className="bg-slate-400 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+          <h2 className="font-bold text-slate-600 text-[14px]">Imaging and screening orders</h2>
+        </div>
+        <p className="p-4 text-[13px] text-slate-600 bg-[#F8F9FA]">Select the required treatment decision above to generate the applicable orders.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="border border-[#BCC3CD] rounded-sm mb-4 bg-white shadow-sm mt-6">
@@ -74,7 +110,7 @@ export default function ImagingSection({ state, updateState }: Props) {
               />
               <div>
                 <div className="font-bold text-slate-900 text-[13px]">
-                  Code Stroke MRI (MRI Brain wo Contrast) <span className="font-normal">— Limited Hyperacute Stroke Panel</span>
+                  Code Stroke MRI (MRI Brain wo Contrast) <span className="font-normal">— Limited Hyperacute Stroke MRI Panel</span>
                 </div>
                 {showCodeStrokeRequired ? (
                   <div className="text-[10px] font-bold text-slate-600 uppercase border border-slate-300 bg-white px-1 py-0.5 rounded-sm inline-block mt-1 tracking-wider">SELECTED BY INDICATION</div>
@@ -106,6 +142,7 @@ export default function ImagingSection({ state, updateState }: Props) {
             <div className="flex items-start gap-3 p-2.5 bg-[#E3EAF3] border-b border-[#BCC3CD]">
               <input
                 type="checkbox"
+                aria-label="MRA Head and Neck without contrast package selected by indication"
                 className="mt-1 w-3.5 h-3.5 text-[#0055CC] rounded-sm border-[#BCC3CD] focus:ring-[#0055CC]"
                 checked={true}
                 readOnly
@@ -122,8 +159,8 @@ export default function ImagingSection({ state, updateState }: Props) {
             <div className="p-4 border-l-[3px] border-[#4A729A] ml-2 my-3 mr-3 bg-white border border-[#BCC3CD]">
               <div className="text-[12px] font-bold text-slate-800 uppercase tracking-wider mb-2">Includes both component orders</div>
               <ul className="list-disc pl-5 text-[12px] text-slate-700 space-y-1 mb-4 font-bold">
-                <li>MRA Head wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
-                <li>MRA Neck wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke Panel</span></li>
+                <li>MRA Head wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke MRI Panel</span></li>
+                <li>MRA Neck wo Contrast — <span className="font-normal">ONLY if patient has suspected LVO and has contraindication for CTA — Limited Hyperacute Stroke MRI Panel</span></li>
               </ul>
 
               <DiagnosisPicker 
@@ -161,7 +198,7 @@ export default function ImagingSection({ state, updateState }: Props) {
                   <label className="flex items-start gap-3 p-2 bg-white border border-[#BCC3CD] rounded-sm cursor-pointer hover:bg-slate-50">
                     <input type="checkbox" className="mt-1" checked={state.mriSafetyXrChest} onChange={(e) => updateState({ mriSafetyXrChest: e.target.checked })} />
                     <div>
-                      <div className="font-bold text-slate-800">XR Chest 1 View - <span className="font-normal">Limited Hyperacute Stroke Panel</span></div>
+                      <div className="font-bold text-slate-800">XR Chest 1 View - <span className="font-normal">Limited Hyperacute Stroke MRI Panel</span></div>
                       <div className="text-[11px] text-slate-500 mt-0.5">Priority: STAT</div>
                     </div>
                   </label>
@@ -169,7 +206,7 @@ export default function ImagingSection({ state, updateState }: Props) {
                   <label className="flex items-start gap-3 p-2 bg-white border border-[#BCC3CD] rounded-sm cursor-pointer hover:bg-slate-50">
                     <input type="checkbox" className="mt-1" checked={state.mriSafetyXrAbdomen} onChange={(e) => updateState({ mriSafetyXrAbdomen: e.target.checked })} />
                     <div>
-                      <div className="font-bold text-slate-800">XR Abdomen 1 View - <span className="font-normal">Limited Hyperacute Stroke Panel</span></div>
+                      <div className="font-bold text-slate-800">XR Abdomen 1 View - <span className="font-normal">Limited Hyperacute Stroke MRI Panel</span></div>
                       <div className="text-[11px] text-slate-500 mt-0.5">Priority: STAT</div>
                     </div>
                   </label>
@@ -177,7 +214,7 @@ export default function ImagingSection({ state, updateState }: Props) {
                   <label className="flex items-start gap-3 p-2 bg-white border border-[#BCC3CD] rounded-sm cursor-pointer hover:bg-slate-50">
                     <input type="checkbox" className="mt-1" checked={state.mriSafetyCtHead} onChange={(e) => updateState({ mriSafetyCtHead: e.target.checked })} />
                     <div>
-                      <div className="font-bold text-slate-800">CT Head wo Contrast Stroke - ONLY if not already done - <span className="font-normal">Limited Hyperacute Stroke Panel</span></div>
+                      <div className="font-bold text-slate-800">CT Head wo Contrast Stroke - ONLY if not already done - <span className="font-normal">Limited Hyperacute Stroke MRI Panel</span></div>
                       <div className="text-[11px] text-slate-500 mt-0.5">Priority: STAT</div>
                     </div>
                   </label>
@@ -210,7 +247,7 @@ export default function ImagingSection({ state, updateState }: Props) {
           <label className={`flex items-start gap-3 p-2.5 rounded-sm cursor-pointer ${state.transport ? 'bg-[#E3EAF3] border border-[#BCC3CD]' : 'bg-white border border-[#BCC3CD] hover:bg-slate-50'}`}>
             <input type="checkbox" className="mt-1" checked={state.transport} onChange={(e) => updateState({ transport: e.target.checked })} />
             <div>
-              <div className="font-bold text-slate-800 text-[13px]">Transport on monitor with RN / Maintain monitoring and IV lines <span className="font-normal">— Limited Hyperacute Stroke Panel</span></div>
+              <div className="font-bold text-slate-800 text-[13px]">Transport on monitor with RN / Maintain monitoring and IV lines <span className="font-normal">— Limited Hyperacute Stroke MRI Panel</span></div>
               <div className="text-[11px] text-[#0055CC] mt-0.5">Until discontinued • Starting today • Until Specified</div>
             </div>
           </label>
@@ -226,7 +263,7 @@ export default function ImagingSection({ state, updateState }: Props) {
           <label className={`flex items-start gap-3 p-2.5 rounded-sm cursor-pointer ${state.discontinue ? 'bg-[#E3EAF3] border border-[#BCC3CD]' : 'bg-white border border-[#BCC3CD] hover:bg-slate-50'}`}>
             <input type="checkbox" className="mt-1" checked={state.discontinue} onChange={(e) => updateState({ discontinue: e.target.checked })} />
             <div>
-              <div className="font-bold text-slate-800 text-[13px]">Discontinue THIS Order and Discontinue All Orders from the Same Panel/Order Set [ NEURO Limited Hyperacute Stroke Panel ]</div>
+              <div className="font-bold text-slate-800 text-[13px]">Discontinue THIS Order and Discontinue All Orders from the Same Panel/Order Set [ NEURO Limited Hyperacute Stroke MRI Panel ]</div>
               <div className="text-[11px] text-[#0055CC] mt-0.5">Until discontinued • Starting today • Until Specified • WHEN: procedure complete.</div>
             </div>
           </label>
