@@ -26,7 +26,7 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
         <div className={`mt-1 border ${isError ? 'border-red-400 border-l-[3px]' : 'border-[#BCC3CD]'} rounded-sm`}>
           <select
             id="attending"
-            className="w-full bg-white px-3 py-2 text-[13px] outline-none"
+            className="w-full bg-white px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-inset focus:ring-[#0055CC]"
             value={state.attending}
             onChange={(e) => updateState({ attending: e.target.value })}
           >

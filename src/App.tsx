@@ -109,7 +109,7 @@ export default function App() {
         {/* Center Col */}
         <div className="flex-1 p-4 lg:p-6 bg-white min-w-0">
           <div className="border border-[#BCC3CD] rounded-sm bg-white p-3 mb-6 shadow-sm">
-            <h3 className="font-bold text-[13px] text-slate-800 uppercase tracking-wider mb-2">GENERAL GUIDELINES:</h3>
+            <h2 className="font-bold text-[13px] text-slate-800 uppercase tracking-wider mb-2">GENERAL GUIDELINES:</h2>
             <p className="text-[13px] font-bold text-[#C00000] mb-3">ONLY to be ordered by ED and Neurology (stroke attending approved - call stroke phone if confirmation is needed) and solely for acute stroke intervention decision making:</p>
             <ul className="list-disc pl-5 text-[12px] text-slate-800 space-y-2 font-medium">
               <li><strong>Thrombolytic decisions:</strong> (wake up or unknown last known well) with disabling deficits thought due to acute ischemic stroke and lytics would be given if imaging demonstrates DWI/FLAIR mismatch</li>

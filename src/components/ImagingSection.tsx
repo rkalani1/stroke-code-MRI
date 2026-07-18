@@ -27,7 +27,7 @@ const DiagnosisPicker = ({ value, onChange, id, label }: { value: string, onChan
           <select 
             id={id}
             data-focus-target={id}
-            className="flex-1 p-2 text-[13px] outline-none border-none bg-white"
+            className="flex-1 p-2 text-[13px] outline-none border-none bg-white focus:ring-2 focus:ring-inset focus:ring-[#0055CC]"
             value=""
             onChange={(e) => onChange(e.target.value)}
           >
