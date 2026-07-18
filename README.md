@@ -1,19 +1,30 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# NEURO Limited Hyperacute Stroke MRI Panel
 
-# Run and deploy your AI Studio app
+An interactive prototype order set for a limited hyperacute stroke MRI panel, built with React, TypeScript, and Vite.
 
-This contains everything you need to run your app locally.
-https://ai.studio/apps/355f5389-d4d9-47ce-aefa-efbdb0ba4268
+**Live demo:** https://rkalani1.github.io/stroke-code-MRI/
 
-## Run Locally
+> ⚠️ **Educational prototype only.** This is a design/interaction prototype, not a validated clinical system. It is not medical advice and must not be used for patient care.
 
-**Prerequisites:**  Node.js
+## Run locally
 
+**Prerequisites:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```
+   npm install
+   ```
+2. (Optional) Set `GEMINI_API_KEY` in `.env.local` if using the AI-assisted features.
+3. Start the dev server:
+   ```
+   npm run dev
+   ```
+
+## Deploy
+
+Pushes to `main` are built and published to GitHub Pages by the workflow in
+[`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
+
+## License
+
+See repository settings for license details.
