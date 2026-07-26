@@ -9,10 +9,10 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
   const isError = state.attending === '';
   
   return (
-    <div className="border border-[#BCC3CD] rounded-sm bg-white shadow-sm mt-6">
-      <div className="bg-[#E5EEF6] border-b border-[#BCC3CD] flex items-center justify-between p-2.5 rounded-t-sm">
+    <div className="workflow-section workflow-section--approval border border-[#BCC3CD] bg-white mt-6">
+      <div className="workflow-section__header bg-[#E5EEF6] border-b border-[#BCC3CD] flex items-center justify-between p-2.5">
         <div className="flex items-center gap-2">
-          <div className="bg-[#4A729A] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shrink-0">3</div>
+          <div className="workflow-step-badge bg-[#4A729A] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shrink-0">3</div>
           <h2 className="font-bold text-[#203D5C] text-[14px]">Stroke attending approval</h2>
         </div>
         <span className="text-[#C00000] font-bold text-[11px] uppercase tracking-wider shrink-0">Required</span>

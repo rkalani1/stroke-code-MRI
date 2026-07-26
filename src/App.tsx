@@ -98,17 +98,17 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 font-sans flex flex-col pb-16 selection:bg-[#E3EAF3]">
+    <div className="ehr-app min-h-screen text-slate-900 font-sans flex flex-col pb-16 selection:bg-[#E3EAF3]">
       {/* Main Header */}
-      <div className="bg-[#4A729A] text-white px-4 py-3 shadow-inner sticky top-0 z-10">
-        <h1 className="text-[20px] font-bold">NEURO Limited Hyperacute Stroke Panel</h1>
+      <div className="ehr-header bg-[#4A729A] text-white px-4 py-3 sticky top-0 z-10">
+        <h1 className="ehr-header__title text-[20px] font-bold">NEURO Limited Hyperacute Stroke Panel</h1>
       </div>
 
       {/* Content Area */}
-      <main className="flex-1 w-full flex flex-col lg:flex-row">
+      <main className="ehr-main flex-1 w-full flex flex-col lg:flex-row">
         {/* Center Col */}
-        <div className="flex-1 p-4 lg:p-6 bg-white min-w-0">
-          <div className="border border-[#BCC3CD] rounded-sm bg-white p-3 mb-6 shadow-sm">
+        <div className="ehr-workflow flex-1 p-4 lg:p-6 min-w-0">
+          <div className="ehr-guidelines border border-[#BCC3CD] bg-white p-3 mb-6">
             <h2 className="font-bold text-[13px] text-slate-800 uppercase tracking-wider mb-2">GENERAL GUIDELINES:</h2>
             <p className="text-[13px] font-bold text-[#C00000] mb-3">ONLY to be ordered by ED and Neurology (stroke attending approved - call stroke phone if confirmation is needed) and solely for acute stroke intervention decision making:</p>
             <ul className="list-disc pl-5 text-[12px] text-slate-800 space-y-2 font-medium">
