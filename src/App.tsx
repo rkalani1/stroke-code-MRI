@@ -4,6 +4,12 @@ import DecisionSection from './components/DecisionSection';
 import ImagingSection from './components/ImagingSection';
 import ClinicalInfoSection from './components/ClinicalInfoSection';
 
+const PATHWAY_LABELS = {
+  thrombolytic: 'Thrombolytic decision',
+  evt: 'EVT decision',
+  both: 'Combined thrombolytic and EVT decisions'
+} as const;
+
 export default function App() {
   const [state, setState] = useState<AppState>({
     decision: null,
@@ -22,6 +28,7 @@ export default function App() {
     discontinue: true,
     mraHeadNeckSelected: false
   });
+  const [attendingTouched, setAttendingTouched] = useState(false);
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -32,6 +39,7 @@ export default function App() {
   }, []);
 
   const applyDemoState = (demo: DemoState) => {
+    setAttendingTouched(false);
     const base = {
       decision: null, evtOptionalBrainMri: false, mriSafetyScreening: false, 
       mriSafetyXrChest: false, mriSafetyXrAbdomen: false, mriSafetyCtHead: false, 
@@ -97,11 +105,22 @@ export default function App() {
     });
   };
 
+  const returnToDecision = () => {
+    const targetId = state.decision ? `decision-${state.decision}` : 'decision-thrombolytic';
+    const target = document.getElementById(targetId) as HTMLInputElement | null;
+    target?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    window.requestAnimationFrame(() => target?.focus({ preventScroll: true }));
+  };
+
   return (
     <div className="ehr-app min-h-screen text-slate-900 font-sans flex flex-col pb-16 selection:bg-[#E3EAF3]">
       {/* Main Header */}
       <div className="ehr-header bg-[#4A729A] text-white px-4 py-3 sticky top-0 z-10">
         <h1 className="ehr-header__title text-[20px] font-bold">NEURO Limited Hyperacute Stroke Panel</h1>
+      </div>
+      <div className="demo-ribbon" role="status" aria-live="polite">
+        <strong>Synthetic public demo</strong>
+        <span>Cannot place orders, update an EHR, or contact clinicians.</span>
       </div>
 
       {/* Content Area */}
@@ -118,9 +137,24 @@ export default function App() {
           </div>
 
           <DecisionSection state={state} updateState={updateState} />
+
+          {state.decision && (
+            <div className="current-pathway" role="status" aria-live="polite">
+              <div>
+                <span className="current-pathway__label">Current pathway</span>
+                <strong>{PATHWAY_LABELS[state.decision]}</strong>
+              </div>
+              <button type="button" onClick={returnToDecision}>Change</button>
+            </div>
+          )}
           
           <ImagingSection state={state} updateState={updateState} />
-          <ClinicalInfoSection state={state} updateState={updateState} />
+          <ClinicalInfoSection
+            state={state}
+            updateState={updateState}
+            validationVisible={attendingTouched}
+            onValidationIntent={() => setAttendingTouched(true)}
+          />
         </div>
       </main>
 

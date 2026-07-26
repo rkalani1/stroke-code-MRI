@@ -3,10 +3,12 @@ import { AppState, ATTENDING_OPTIONS } from '../types';
 interface Props {
   state: AppState;
   updateState: (updates: Partial<AppState>) => void;
+  validationVisible: boolean;
+  onValidationIntent: () => void;
 }
 
-export default function ClinicalInfoSection({ state, updateState }: Props) {
-  const isError = state.attending === '';
+export default function ClinicalInfoSection({ state, updateState, validationVisible, onValidationIntent }: Props) {
+  const isError = validationVisible && state.attending === '';
   
   return (
     <div className="workflow-section workflow-section--approval border border-[#BCC3CD] bg-white mt-6">
@@ -20,7 +22,7 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
 
       <div className="p-4">
         <label htmlFor="attending" className="block text-[13px] font-bold text-slate-800 mb-1">
-          Approving stroke attending <span className="text-red-600">*</span>
+          Approving stroke attending <span className="required-marker">Required</span>
         </label>
         
         <div className={`mt-1 border ${isError ? 'border-red-400 border-l-[3px]' : 'border-[#BCC3CD]'} rounded-sm`}>
@@ -29,6 +31,10 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
             className="w-full bg-white px-3 py-2 text-[13px] outline-none focus:ring-2 focus:ring-inset focus:ring-[#0055CC]"
             value={state.attending}
             onChange={(e) => updateState({ attending: e.target.value })}
+            onBlur={onValidationIntent}
+            aria-required="true"
+            aria-invalid={isError}
+            aria-describedby={isError ? 'attending-error' : 'attending-help'}
           >
             <option value="" disabled>Select approving attending</option>
             {ATTENDING_OPTIONS.map(opt => (
@@ -36,8 +42,13 @@ export default function ClinicalInfoSection({ state, updateState }: Props) {
             ))}
           </select>
         </div>
+        {!isError && (
+          <p id="attending-help" className="text-[12px] text-slate-500 mt-2">
+            Required before a simulated review can be complete.
+          </p>
+        )}
         {isError && (
-          <p className="text-[12px] text-red-600 mt-2 font-medium">Select the approving stroke attending.</p>
+          <p id="attending-error" role="alert" className="text-[12px] text-red-600 mt-2 font-medium">Select the approving stroke attending.</p>
         )}
       </div>
     </div>
