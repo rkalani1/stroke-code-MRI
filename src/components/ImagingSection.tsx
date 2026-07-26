@@ -7,7 +7,7 @@ interface Props {
 
 const DiagnosisPicker = ({ value, onChange, id, label }: { value: string, onChange: (v: string) => void, id: string, label: string }) => {
   return (
-    <div className="border border-[#BCC3CD] p-3 rounded-sm bg-white mt-3">
+    <div className="diagnosis-picker border border-[#BCC3CD] p-3 bg-white mt-3">
       <label htmlFor={id} className="block text-[12px] font-bold text-slate-700 mb-1">
         {label} <span className="text-[#C00000]">*</span>
       </label>
@@ -49,9 +49,9 @@ export default function ImagingSection({ state, updateState }: Props) {
   const mriSelected = showCodeStrokeRequired || (showCodeStrokeOptional && state.evtOptionalBrainMri);
 
   return (
-    <div className="border border-[#BCC3CD] rounded-sm mb-4 bg-white shadow-sm mt-6">
-      <div className="bg-[#E5EEF6] border-b border-[#BCC3CD] flex items-center p-2.5 rounded-t-sm gap-2">
-        <div className="bg-[#4A729A] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shrink-0">2</div>
+    <div className="workflow-section workflow-section--imaging border border-[#BCC3CD] mb-4 bg-white mt-6">
+      <div className="workflow-section__header bg-[#E5EEF6] border-b border-[#BCC3CD] flex items-center p-2.5 gap-2">
+        <div className="workflow-step-badge bg-[#4A729A] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold shrink-0">2</div>
         <h2 className="font-bold text-[#203D5C] text-[14px]">Imaging and screening orders</h2>
       </div>
 

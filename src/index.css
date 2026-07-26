@@ -1,1 +1,159 @@
 @import "tailwindcss";
+
+:root {
+  font-family: "Aptos", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  color: #172b3c;
+  background: #edf2f5;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --ehr-ink: #172b3c;
+  --ehr-blue: #315f83;
+  --ehr-blue-deep: #234863;
+  --ehr-blue-soft: #e7f0f5;
+  --ehr-line: #b8c6cf;
+  --ehr-canvas: #edf2f5;
+  --ehr-focus: #0055cc;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--ehr-canvas);
+}
+
+.ehr-app {
+  background:
+    linear-gradient(rgba(49, 95, 131, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(49, 95, 131, 0.035) 1px, transparent 1px),
+    var(--ehr-canvas);
+  background-size: 28px 28px;
+}
+
+.ehr-header {
+  background: var(--ehr-blue-deep);
+  border-bottom: 3px solid #7ea9bd;
+  box-shadow: 0 10px 30px -24px rgba(23, 43, 60, 0.95);
+}
+
+.ehr-header__title {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  letter-spacing: -0.015em;
+}
+
+.ehr-main {
+  align-items: flex-start;
+}
+
+.ehr-workflow {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.ehr-guidelines {
+  border-color: var(--ehr-line);
+  border-left: 4px solid var(--ehr-blue);
+  border-radius: 8px;
+  box-shadow: 0 16px 34px -30px rgba(23, 43, 60, 0.85);
+}
+
+.workflow-section {
+  position: relative;
+  overflow: hidden;
+  border-color: var(--ehr-line);
+  border-radius: 10px;
+  box-shadow: 0 18px 38px -32px rgba(23, 43, 60, 0.9);
+}
+
+.workflow-section__header {
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  border-color: var(--ehr-line);
+  background: var(--ehr-blue-soft);
+}
+
+.workflow-step-badge {
+  width: 28px;
+  height: 28px;
+  background: var(--ehr-blue);
+  box-shadow: 0 0 0 4px rgba(49, 95, 131, 0.1);
+}
+
+.workflow-choice {
+  min-height: 72px;
+  padding: 0.9rem 1rem;
+}
+
+.workflow-choice:has(input:checked) {
+  box-shadow: inset 4px 0 0 var(--ehr-blue);
+}
+
+.diagnosis-picker {
+  border-radius: 7px;
+  border-color: var(--ehr-line);
+}
+
+.ehr-app input[type="radio"],
+.ehr-app input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ehr-focus);
+}
+
+.ehr-app button,
+.ehr-app select,
+.ehr-app label {
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease,
+    box-shadow 140ms ease;
+}
+
+.ehr-app button:focus-visible,
+.ehr-app select:focus-visible,
+.ehr-app input:focus-visible,
+.ehr-app label:has(input:focus-visible) {
+  outline: 3px solid rgba(0, 85, 204, 0.38);
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .ehr-header {
+    padding-block: 0.8rem;
+  }
+
+  .ehr-header__title {
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+
+  .ehr-workflow {
+    padding: 0.9rem;
+  }
+
+  .ehr-guidelines {
+    padding: 0.9rem;
+  }
+
+  .workflow-section__header {
+    align-items: flex-start;
+  }
+
+  .ehr-app button,
+  .ehr-app select,
+  .ehr-app label:has(input) {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
